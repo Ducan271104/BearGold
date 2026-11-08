@@ -59,7 +59,7 @@ export default function LoginPage() {
       <section className="card w-full" style={{ maxWidth: 440 }}>
         <Link href="/" className="brand" style={{ padding: 0 }}>
           <span className="brand-mark">🐻</span><span>BEAR<em>GOLD</em></span>
-        </a>
+        </Link>
         <div className="eyebrow" style={{ marginTop: 32 }}>MEMBER ACCESS</div>
         <h1 style={{ fontSize: 28 }}>{mode === "login" ? "Đăng nhập BearGold" : "Tạo tài khoản BearGold"}</h1>
         <p className="sub">Sử dụng email và mật khẩu của tài khoản BearGold.</p>
