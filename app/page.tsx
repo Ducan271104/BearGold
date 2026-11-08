@@ -38,7 +38,7 @@ export default function Home() {
         <section className="actions">
           <article className="action"><span className="metric-icon">⇥</span><strong>Tài khoản & đăng nhập</strong><p>Thiết lập xác thực và phiên đăng nhập an toàn.</p><a className="pill" href="/login">Mở trang đăng nhập →</a></article>
           <article className="action" id="profiles"><span className="metric-icon">▤</span><strong>Quản lý hồ sơ</strong><p>Khu vực dành cho các thao tác được cấp quyền.</p><span className="pill">Sắp ra mắt</span></article>
-          <article className="action" id="history"><span className="metric-icon">◷</span><strong>Lịch sử hoạt động</strong><pTheo dõi thao tác sau khi backend và database sẵn sàng.</p><span className="pill">Sắp ra mắt</span></article>
+          <article className="action" id="history"><span className="metric-icon">◷</span><strong>Lịch sử hoạt động</strong><p>Theo dõi thao tác sau khi backend và database sẵn sàng.</p><span className="pill">Sắp ra mắt</span></article>
         </section>
         <div className="section-head"><h2>Hoạt động gần đây</h2><span>Chưa có dữ liệu</span></div>
         <div className="table-wrap"><table><thead><tr><th>HOẠT ĐỘNG</th><th>NGƯỜI THỰC HIỆN</th><th>THỜI GIAN</th><th>TRẠNG THÁI</th></tr></thead><tbody><tr><td>Khởi tạo giao diện BearGold</td><td>Hệ thống</td><td>Vừa tạo</td><td className="status">● Sẵn sàng cấu hình</td></tr></tbody></table></div>
