@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 const metrics = [
-  { icon: "✦", label: "Tổng Credits", value: "—", note: "Sẽ kết nối ở bước tiếp theo" },
+  { icon: "✦", label: "Tổng Credits", value: String(profile?.credits ?? 0), note: "Số dư trong hồ sơ của bạn" },
   { icon: "◉", label: "Hồ sơ quản lý", value: "—", note: "Dữ liệu thật sẽ được bổ sung" },
   { icon: "↗", label: "Thao tác hôm nay", value: "—", note: "Đang chờ cấu hình nhật ký" },
   { icon: "⌁", label: "Vai trò", value: "Đang tải", note: "Quyền được xác định từ database" }
@@ -17,7 +17,7 @@ export default async function Home() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("email, display_name, role")
+    .select("email, display_name, role, credits")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -34,7 +34,7 @@ export default async function Home() {
           <nav className="nav">
             <Link className="active" href="/">◫　Tổng quan</Link>
             {isAdmin && <Link href="/admin">⚙　Quản trị Admin</Link>}
-            <a href="#profiles">▤　Hồ sơ của tôi</a>
+            <Link href="/profile">▤　Hồ sơ của tôi</Link>
             <a href="#history">◷　Lịch sử thao tác</a>
           </nav>
         </div>
@@ -55,11 +55,14 @@ export default async function Home() {
           <div className="bear" aria-hidden="true">🐻‍❄️</div>
         </section>
         <section className="grid" aria-label="Chỉ số tổng quan">
-          {metrics.map((item) => <article className="card" key={item.label}><div className="metric-icon">{item.icon}</div><div className="metric-label">{item.label}</div><div className="metric">{item.label === "Vai trò" ? (isAdmin ? "Admin" : "CTV") : item.value}</div><div className="metric-note">{item.note}</div></article>)}
+          <article className="card"><div className="metric-icon">✦</div><div className="metric-label">Tổng Credits</div><div className="metric">{profile?.credits ?? 0}</div><div className="metric-note">Số dư trong hồ sơ của bạn</div></article>
+          <article className="card"><div className="metric-icon">◉</div><div className="metric-label">Email tài khoản</div><div className="metric" style={{ fontSize: 14, overflowWrap: "anywhere" }}>{profile?.email || user.email}</div><div className="metric-note">Tài khoản đã xác thực</div></article>
+          <article className="card"><div className="metric-icon">⌁</div><div className="metric-label">Vai trò</div><div className="metric">{isAdmin ? "Admin" : "CTV"}</div><div className="metric-note">Lấy từ Supabase</div></article>
+          <article className="card"><div className="metric-icon">◷</div><div className="metric-label">Trạng thái</div><div className="metric">Hoạt động</div><div className="metric-note">Đang đăng nhập</div></article>
         </section>
         <div className="section-head"><h2>Truy cập nhanh</h2><span>Quyền truy cập theo vai trò</span></div>
         <section className="actions">
-          <article className="action" id="profiles"><span className="metric-icon">▤</span><strong>Hồ sơ của tôi</strong><p>Xem thông tin tài khoản và trạng thái thành viên.</p><span className="pill">Đang hoàn thiện</span></article>
+          <article className="action" id="profiles"><span className="metric-icon">▤</span><strong>Hồ sơ của tôi</strong><p>Xem thông tin tài khoản, vai trò và Credits.</p><Link className="pill" href="/profile">Mở hồ sơ →</Link></article>
           {isAdmin && <article className="action"><span className="metric-icon">⚙</span><strong>Khu vực quản trị</strong><p>Khu vực chỉ dành cho tài khoản có role admin.</p><Link className="pill" href="/admin">Mở quản trị →</Link></article>}
           <article className="action" id="history"><span className="metric-icon">◷</span><strong>Lịch sử hoạt động</strong><p>Theo dõi thao tác sau khi hoàn thiện nhật ký.</p><span className="pill">Sắp ra mắt</span></article>
         </section>
