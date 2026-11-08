@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
@@ -56,7 +57,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen flex items-center justify-center p-5">
       <section className="card w-full" style={{ maxWidth: 440 }}>
-        <a href="/" className="brand" style={{ padding: 0 }}>
+        <Link href="/" className="brand" style={{ padding: 0 }}>
           <span className="brand-mark">🐻</span><span>BEAR<em>GOLD</em></span>
         </a>
         <div className="eyebrow" style={{ marginTop: 32 }}>MEMBER ACCESS</div>
@@ -106,7 +107,7 @@ export default function LoginPage() {
         >
           {mode === "login" ? "Chưa có tài khoản? Đăng ký" : "Đã có tài khoản? Đăng nhập"}
         </button>
-        <a href="/" className="pill" style={{ marginTop: 12 }}>← Quay lại tổng quan</a>
+        <Link href="/" className="pill" style={{ marginTop: 12 }}>← Quay lại tổng quan</Link>
       </section>
     </main>
   );
