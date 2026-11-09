@@ -56,7 +56,7 @@ export default async function StorePage() {
 
   const packages = catalogue?.length ? catalogue : fallbackPackages;
   const supplierVerified = supplierGate?.authorization_status === "verified";
-  const orderingEnabled = supplierVerified && supplierGate?.order_activation_enabled === true;
+  // Orders stay disabled until a real, authorized order-processing flow is implemented.
 
   return (
     <main className="admin-page store-page">
@@ -99,12 +99,12 @@ export default async function StorePage() {
               <div className="store-product-top"><span>{item.duration_label}</span><span className="store-product-tag">{supplierVerified ? "Đã xác minh nguồn cung" : "Đang xác minh"}</span></div>
               <h3>{item.name}</h3><p>{item.description}</p>
               <div className="store-product-price">{item.credits_price}<small> Credits</small></div>
-              <button className="store-order-button" type="button" disabled={!orderingEnabled}> {orderingEnabled ? "Xem điều kiện đặt hàng" : "Chưa mở giao dịch"} </button>
+              <button className="store-order-button" type="button" disabled>Chưa tích hợp đặt hàng</button>
               <small className="store-product-foot">Không trừ Credits khi giao dịch chưa được mở.</small>
             </article>
           ))}
         </div>
-        <div className="store-gate" role="status"><span>ⓘ</span><div><strong>{orderingEnabled ? "Nguồn cung đã xác minh" : "Cửa hàng đang trong giai đoạn xác minh"}</strong><p>{orderingEnabled ? "Quy trình đặt hàng chỉ được bật theo cấu hình quản trị và điều khoản dịch vụ đã công bố." : "Danh mục đang hiển thị để tham khảo. BearGold chưa nhận thanh toán, chưa trừ Credits và chưa cam kết thời hạn hay quyền lợi Gold. Giao dịch chỉ được mở sau khi Admin xác minh bằng chứng ủy quyền và điều kiện cung cấp."}</p></div></div>
+        <div className="store-gate" role="status"><span>ⓘ</span><div><strong>{supplierVerified ? "Nguồn cung đã xác minh · Đặt hàng chưa tích hợp" : "Cửa hàng đang trong giai đoạn xác minh"}</strong><p>{supplierVerified ? "Nguồn cung đã được đánh dấu xác minh, nhưng BearGold chưa tích hợp quy trình đặt hàng hoặc thanh toán. Không có giao dịch nào được thực hiện tại thời điểm này." : "Danh mục đang hiển thị để tham khảo. BearGold chưa nhận thanh toán, chưa trừ Credits và chưa cam kết thời hạn hay quyền lợi Gold. Giao dịch chỉ được xem xét sau khi Admin xác minh bằng chứng ủy quyền và điều kiện cung cấp."}</p></div></div>
       </section>
 
       <section className="store-section">
