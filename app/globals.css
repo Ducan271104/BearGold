@@ -114,3 +114,13 @@ td { color:#cbd1dc; }
 .store-status-list span { color:var(--muted); }
 .store-status-list strong { color:var(--gold2); text-align:right; }
 @media(max-width:640px) { .store-grid { grid-template-columns:1fr; } .store-status-list { grid-template-columns:1fr; } .store-wallet { padding:18px; } }
+
+
+/* Read-only provider activations dashboard */
+.activation-refresh { border:1px solid rgba(245,200,75,.22); cursor:pointer; font-weight:700; }
+.activation-refresh:disabled { opacity:.55; cursor:wait; }
+.activation-state { font-size:19px; }
+.activation-on { color:#9fe0b4; }
+.activation-off { color:#d9b56b; }
+.activation-table { min-width:980px; }
+.activation-table td { vertical-align:middle; }
