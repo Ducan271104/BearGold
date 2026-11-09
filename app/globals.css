@@ -114,3 +114,18 @@ td { color:#cbd1dc; }
 .store-status-list span { color:var(--muted); }
 .store-status-list strong { color:var(--gold2); text-align:right; }
 @media(max-width:640px) { .store-grid { grid-template-columns:1fr; } .store-status-list { grid-template-columns:1fr; } .store-wallet { padding:18px; } }
+
+
+/* Public customer request and private tracking pages */
+.public-order-form { display:grid; gap:15px; padding:20px; border:1px solid var(--line); border-radius:17px; background:var(--panel); }
+.public-order-form label { display:grid; gap:7px; color:#dce1eb; font-size:12px; font-weight:700; }
+.public-order-form input,.public-order-form select,.public-order-form textarea { width:100%; min-width:0; border:1px solid var(--line); border-radius:10px; background:#0d1119; color:#f7f8fb; padding:12px; font:inherit; font-size:13px; }
+.public-order-form textarea { resize:vertical; }
+.contact-row { display:grid; grid-template-columns:150px minmax(0,1fr); gap:8px; }
+.order-privacy,.order-disclaimer { margin:0; color:var(--muted); font-size:11px; line-height:1.65; }
+.order-submit { border:0; border-radius:11px; padding:13px 16px; background:linear-gradient(120deg,#ffe49a,#e6ad22); color:#17130a; font-weight:800; }
+.order-submit:disabled { opacity:.55; cursor:wait; }
+.order-error { margin:0; color:#ff9c9c; font-size:12px; }
+.track-card { display:grid; gap:17px; padding:23px; border:1px solid rgba(245,200,75,.2); border-radius:18px; background:linear-gradient(145deg,#151a25,#10141c); }
+.track-code { color:var(--gold2); font-size:clamp(25px,6vw,36px); font-weight:800; letter-spacing:1.5px; }
+@media(max-width:640px) { .contact-row { grid-template-columns:1fr; } .public-order-form { padding:16px; } }
