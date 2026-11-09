@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import MemberManager from "./member-manager";
+import PackageManager from "./package-manager";
 
 type Profile = {
   id: string;
@@ -56,6 +57,11 @@ export default async function AdminPage() {
       .limit(30),
   ]);
 
+  const { data: servicePackages, error: packagesError } = await supabase
+    .from("service_packages")
+    .select("id, name, duration_label, credits_price, description, active")
+    .order("credits_price", { ascending: true });
+
   const members = (profilesResult.data ?? []) as Profile[];
   const activities = (activityResult.data ?? []) as Activity[];
   const emailById = new Map(members.map((member) => [member.id, member.email || "Không rõ"]));
@@ -99,6 +105,20 @@ export default async function AdminPage() {
           <div className="metric-label">Nhật ký gần đây</div>
           <div className="metric">{activities.length}</div>
         </article>
+      </section>
+
+      <section className="admin-section">
+        <div className="section-head">
+          <h2>Quản lý gói Locket Gold</h2>
+          <span>Chỉ thay đổi giá và hiển thị danh mục</span>
+        </div>
+        {packagesError ? (
+          <p className="admin-notice">Không tải được danh mục gói: {packagesError.message}</p>
+        ) : servicePackages?.length ? (
+          <PackageManager packages={servicePackages} />
+        ) : (
+          <p className="admin-notice">Chưa có gói dịch vụ trong service_packages.</p>
+        )}
       </section>
 
       <section className="admin-section">
