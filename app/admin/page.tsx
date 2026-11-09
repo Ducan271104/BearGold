@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import MemberManager from "./member-manager";
 
 type Profile = {
   id: string;
@@ -76,7 +77,7 @@ export default async function AdminPage() {
         <div>
           <span className="pill">⚙ ADMIN ACCESS</span>
           <h2>Trung tâm quản lý BearGold</h2>
-          <p>Quyền quản trị được xác minh ở máy chủ. Trang này hiện chỉ hiển thị dữ liệu.</p>
+          <p>Quyền quản trị được xác minh ở máy chủ. Credits chỉ được điều chỉnh qua thao tác Admin có ghi nhật ký.</p>
         </div>
         <Link href="/" className="pill">← Tổng quan</Link>
       </section>
@@ -107,27 +108,8 @@ export default async function AdminPage() {
         </div>
         {profilesResult.error ? (
           <p className="admin-notice">Không tải được danh sách thành viên: {profilesResult.error.message}</p>
-        ) : members.length === 0 ? (
-          <p className="admin-notice">Chưa có hồ sơ thành viên.</p>
         ) : (
-          <div className="table-wrap">
-            <table>
-              <thead><tr><th>TÀI KHOẢN</th><th>VAI TRÒ</th><th>CREDITS</th><th>NGÀY TẠO</th></tr></thead>
-              <tbody>
-                {members.map((member) => (
-                  <tr key={member.id}>
-                    <td>
-                      <strong>{member.display_name || member.email || "Thành viên"}</strong>
-                      <div className="admin-muted">{member.email || "Chưa có email"}</div>
-                    </td>
-                    <td><span className="pill">{member.role.toUpperCase()}</span></td>
-                    <td>{member.credits ?? 0}</td>
-                    <td>{formatDate(member.created_at)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <MemberManager members={members} />
         )}
       </section>
 
