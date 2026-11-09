@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     .eq("id", user.id)
     .maybeSingle();
 
-  if (!profile || !["admin", "ctv"].includes(profile.role)) {
+  if (!profile || !["ADMIN", "CTV"].includes(String(profile.role).toUpperCase())) {
     return NextResponse.json({ success: false, error: "Bạn không có quyền truy cập." }, { status: 403 });
   }
 
