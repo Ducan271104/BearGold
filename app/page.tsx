@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import ProviderTools from "./provider-tools";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -48,6 +49,7 @@ export default async function Home() {
           <div><span className="pill">🐻　WELCOME TO BEARGOLD</span><h2>Mọi thứ trong tầm kiểm soát.</h2><p>{isAdmin ? "Bạn đang truy cập bằng quyền quản trị." : "Bạn đang truy cập khu vực cộng tác viên."}</p></div>
           <div className="bear" aria-hidden="true">🐻‍❄️</div>
         </section>
+        <ProviderTools />
         <section className="grid" aria-label="Chỉ số tổng quan">
           <article className="card"><div className="metric-icon">✦</div><div className="metric-label">Tổng Credits</div><div className="metric">{profile?.credits ?? 0}</div><div className="metric-note">Số dư trong hồ sơ của bạn</div></article>
           <article className="card"><div className="metric-icon">◉</div><div className="metric-label">Email tài khoản</div><div className="metric" style={{ fontSize: 14, overflowWrap: "anywhere" }}>{profile?.email || user.email}</div><div className="metric-note">Tài khoản đã xác thực</div></article>
