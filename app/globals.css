@@ -62,3 +62,29 @@ td { color:#cbd1dc; }
 .admin-notice { padding:18px; border:1px solid var(--line); border-radius:14px; background:var(--panel); color:var(--muted); font-size:13px; }
 .admin-muted { margin-top:4px; color:var(--muted); font-size:10px; }
 @media(max-width:700px) { .admin-page { padding:20px 14px 34px; } .admin-stats { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } .admin-stats .card { padding:15px; } .admin-stats .metric { font-size:24px; } .admin-summary { align-items:flex-start; flex-direction:column; padding:19px; } .admin-section .section-head { align-items:flex-start; flex-direction:column; } .admin-section table { min-width:620px; } }
+
+
+.member-tools { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:14px 0; }
+.member-tools input, .credit-controls input, .credit-controls select { min-width:0; border:1px solid var(--line); border-radius:10px; background:#0d1119; color:#f7f8fb; padding:11px 12px; font-size:12px; }
+.member-tools input { width:min(100%,420px); }
+.member-tools span { color:var(--muted); font-size:11px; white-space:nowrap; }
+.member-list { display:grid; gap:10px; }
+.member-card { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:16px; border:1px solid var(--line); border-radius:15px; background:var(--panel); }
+.member-main { display:grid; gap:5px; min-width:180px; }
+.member-main strong { font-size:13px; overflow-wrap:anywhere; }
+.member-main span,.member-main small,.member-admin-credit { color:var(--muted); font-size:11px; overflow-wrap:anywhere; }
+.credit-form { display:grid; gap:9px; min-width:min(100%,480px); }
+.credit-form > strong { color:var(--gold2); font-size:12px; }
+.credit-controls { display:grid; grid-template-columns:95px 90px minmax(120px,1fr) auto; gap:7px; }
+.credit-submit { justify-content:center; cursor:pointer; }
+.credit-submit:disabled { opacity:.55; cursor:wait; }
+.credit-message { margin:0; color:#b8c4d6; font-size:11px; }
+@media(max-width:760px) {
+  .member-tools { align-items:stretch; flex-direction:column; }
+  .member-tools input { width:100%; }
+  .member-card { align-items:stretch; flex-direction:column; }
+  .credit-form { min-width:0; }
+  .credit-controls { grid-template-columns:1fr 1fr; }
+  .credit-controls input[aria-label="Lý do"] { grid-column:1 / -1; }
+  .credit-submit { grid-column:1 / -1; }
+}
