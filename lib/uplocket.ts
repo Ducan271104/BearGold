@@ -11,9 +11,11 @@ export type ProviderResult = {
 export async function uplocketRequest(
   path: string,
   init: RequestInit = {},
+  options: { authenticated?: boolean } = {},
 ): Promise<ProviderResult> {
+  const authenticated = options.authenticated !== false;
   const apiKey = process.env.UPLOCKET_API_KEY;
-  if (!apiKey) {
+  if (authenticated && !apiKey) {
     return {
       ok: false,
       status: 503,
@@ -28,7 +30,7 @@ export async function uplocketRequest(
       signal: AbortSignal.timeout(12_000),
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        ...(authenticated && apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
         ...(init.body ? { "Content-Type": "application/json" } : {}),
         ...init.headers,
       },
