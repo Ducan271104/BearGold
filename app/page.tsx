@@ -14,8 +14,8 @@ export default async function Home() {
     .eq("id", user.id)
     .maybeSingle();
 
-  const role = profile?.role ?? "ctv";
-  const isAdmin = role === "admin";
+  const role = String(profile?.role ?? "CTV").toUpperCase();
+  const isAdmin = role === "ADMIN";
   const displayName = profile?.display_name || user.email || "Thành viên";
 
   return (
