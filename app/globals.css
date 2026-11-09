@@ -114,3 +114,33 @@ td { color:#cbd1dc; }
 .store-status-list span { color:var(--muted); }
 .store-status-list strong { color:var(--gold2); text-align:right; }
 @media(max-width:640px) { .store-grid { grid-template-columns:1fr; } .store-status-list { grid-template-columns:1fr; } .store-wallet { padding:18px; } }
+
+
+/* CTV DNS workspace */
+.dns-content { display:grid; gap:16px; }
+.dns-panel { padding:20px; border:1px solid var(--line); border-radius:18px; background:var(--panel); min-width:0; }
+.dns-panel .section-head { margin:0 0 13px; }
+.dns-help { margin:0 0 14px; color:var(--muted); font-size:12px; line-height:1.7; }
+.dns-key-form,.dns-form { display:grid; gap:12px; }
+.dns-key-form { grid-template-columns:minmax(0,1fr) auto; }
+.dns-key-form input,.dns-form input,.dns-form select { width:100%; min-width:0; padding:12px 13px; border:1px solid var(--line); border-radius:11px; background:#0b0f16; color:#f7f8fb; font:inherit; font-size:12px; }
+.dns-form { grid-template-columns:repeat(2,minmax(0,1fr)); align-items:end; }
+.dns-form label { display:grid; gap:7px; color:#cbd1dc; font-size:11px; }
+.dns-form button { justify-content:center; min-height:40px; }
+.dns-export-form button { grid-column:1/-1; }
+.dns-balance { display:flex; align-items:center; gap:14px; margin-top:16px; padding-top:14px; border-top:1px solid var(--line); }
+.dns-balance span { color:var(--muted); font-size:12px; }
+.dns-balance strong { margin-right:auto; color:var(--gold2); font-size:18px; }
+.dns-message,.dns-error { margin:12px 0 0; font-size:12px; line-height:1.6; }
+.dns-message { color:#a9dfb8; }.dns-error { color:#fca5a5; }
+.lookup-result { display:flex; align-items:center; gap:13px; margin-top:15px; padding:14px; border:1px solid var(--line); border-radius:13px; }
+.lookup-result img { width:52px; height:52px; border-radius:50%; object-fit:cover; background:#252b36; }
+.lookup-result strong { font-size:13px; }.lookup-result p,.lookup-result span { display:block; margin:4px 0 0; color:var(--muted); font-size:11px; overflow-wrap:anywhere; }
+.activation-list { display:grid; gap:10px; }
+.activation-card { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; padding:15px; border:1px solid var(--line); border-radius:13px; background:#0e121a; }
+.activation-card strong { font-size:13px; }.activation-card p,.activation-card small { display:block; margin:6px 0 0; color:var(--muted); font-size:11px; overflow-wrap:anywhere; }
+.activation-actions { display:flex; align-items:center; justify-content:flex-end; gap:7px; flex-wrap:wrap; }
+.activation-actions button { cursor:pointer; }.activation-actions button:disabled { opacity:.5; }
+.dns-on,.dns-off { align-self:center; font-size:10px; white-space:nowrap; }.dns-on { color:#9fe0b4; }.dns-off { color:#e5b9a0; }
+.dns-install { grid-column:1/-1; color:var(--gold2); font-size:11px; }
+@media(max-width:650px) { .dns-key-form,.dns-form { grid-template-columns:1fr; }.dns-balance { flex-wrap:wrap; }.activation-card { grid-template-columns:1fr; }.activation-actions { justify-content:flex-start; }.dns-panel { padding:16px; } }
