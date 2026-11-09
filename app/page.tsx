@@ -17,55 +17,124 @@ export default async function Home() {
   const role = profile?.role ?? "ctv";
   const isAdmin = role === "admin";
   const displayName = profile?.display_name || user.email || "Thành viên";
+  const credits = profile?.credits ?? 0;
 
   return (
     <div className="shell">
       <aside className="sidebar">
-        <div className="brand"><div className="brand-mark">🐻</div><span>BEAR<em>GOLD</em></span></div>
+        <Link className="brand" href="/" aria-label="BearGold trang chủ">
+          <span className="brand-mark">🐻</span><span>BEAR<em>GOLD</em></span>
+        </Link>
         <div>
-          <div className="nav-label">MENU CHÍNH</div>
-          <nav className="nav">
+          <div className="nav-label">KHÔNG GIAN LÀM VIỆC</div>
+          <nav className="nav" aria-label="Điều hướng chính">
             <Link className="active" href="/">◫　Tổng quan</Link>
             {isAdmin && <Link href="/admin">⚙　Quản trị Admin</Link>}
-            <Link href="/store">✦　Locket Gold Store</Link>
-            <Link href="/orders">▣　Quản lý yêu cầu</Link>
+            <Link href="/store">✦　Danh mục dịch vụ</Link>
+            <Link href="/orders">▣　Yêu cầu & đơn hàng</Link>
             <Link href="/profile">▤　Hồ sơ của tôi</Link>
-            <a href="#history">◷　Lịch sử thao tác</a>
           </nav>
         </div>
         <div className="side-bottom">
           <span className="pill">{isAdmin ? "ADMIN" : "CỘNG TÁC VIÊN"}</span>
-          <p>Tài khoản đã đăng nhập. Quyền truy cập được kiểm tra từ Supabase.</p>
+          <p>Quyền truy cập và số dư được đọc từ hệ thống BearGold.</p>
         </div>
       </aside>
-      <main className="main">
+
+      <main className="main dashboard-main">
         <header className="topbar">
-          <div><div className="eyebrow">BEARGOLD CONTROL CENTER</div><h1>Tổng quan</h1><p className="sub">Xin chào, {displayName}.</p></div>
-          <form action="/auth/signout" method="post">
-            <button className="pill" type="submit">Đăng xuất</button>
-          </form>
+          <div>
+            <div className="eyebrow">BEARGOLD · MEMBER CENTER</div>
+            <h1>Tổng quan</h1>
+            <p className="sub">Chào {displayName}, chúc bạn có một ngày làm việc hiệu quả.</p>
+          </div>
+          <div className="topbar-actions">
+            <Link className="pill dashboard-store-link" href="/store">Khám phá dịch vụ <span aria-hidden="true">↗</span></Link>
+            <form action="/auth/signout" method="post">
+              <button className="pill dashboard-logout" type="submit">Đăng xuất</button>
+            </form>
+          </div>
         </header>
-        <section className="welcome">
-          <div><span className="pill">🐻　WELCOME TO BEARGOLD</span><h2>Mọi thứ trong tầm kiểm soát.</h2><p>{isAdmin ? "Bạn đang truy cập bằng quyền quản trị." : "Bạn đang truy cập khu vực cộng tác viên."}</p></div>
-          <div className="bear" aria-hidden="true">🐻‍❄️</div>
+
+        <section className="welcome dashboard-hero">
+          <div className="dashboard-hero-copy">
+            <span className="hero-kicker">🐻　WELCOME BACK TO BEARGOLD</span>
+            <h2>Một nơi, mọi hoạt động.</h2>
+            <p>Theo dõi tài khoản, Credits và các yêu cầu của bạn trong cùng một không gian.</p>
+            <div className="hero-actions">
+              <Link className="hero-primary" href="/store">Xem danh mục dịch vụ <span aria-hidden="true">→</span></Link>
+              <Link className="hero-secondary" href="/orders">Theo dõi yêu cầu</Link>
+            </div>
+          </div>
+          <div className="hero-emblem" aria-hidden="true"><span>BG</span><b>✦</b></div>
         </section>
-        <section className="grid" aria-label="Chỉ số tổng quan">
-          <article className="card"><div className="metric-icon">✦</div><div className="metric-label">Tổng Credits</div><div className="metric">{profile?.credits ?? 0}</div><div className="metric-note">Số dư trong hồ sơ của bạn</div></article>
-          <article className="card"><div className="metric-icon">◉</div><div className="metric-label">Email tài khoản</div><div className="metric" style={{ fontSize: 14, overflowWrap: "anywhere" }}>{profile?.email || user.email}</div><div className="metric-note">Tài khoản đã xác thực</div></article>
-          <article className="card"><div className="metric-icon">⌁</div><div className="metric-label">Vai trò</div><div className="metric">{isAdmin ? "Admin" : "CTV"}</div><div className="metric-note">Lấy từ Supabase</div></article>
-          <article className="card"><div className="metric-icon">◷</div><div className="metric-label">Trạng thái</div><div className="metric">Hoạt động</div><div className="metric-note">Đang đăng nhập</div></article>
+
+        <section className="dashboard-stats" aria-label="Thông tin tài khoản">
+          <article className="card dashboard-stat-card">
+            <div className="stat-topline"><span className="metric-label">SỐ DƯ CREDITS</span><span className="stat-symbol">✦</span></div>
+            <div className="metric">{credits.toLocaleString("vi-VN")}</div>
+            <div className="metric-note">Số dư hiện tại từ hồ sơ</div>
+          </article>
+          <article className="card dashboard-stat-card">
+            <div className="stat-topline"><span className="metric-label">TÀI KHOẢN</span><span className="stat-symbol">◉</span></div>
+            <div className="dashboard-email">{profile?.email || user.email}</div>
+            <div className="metric-note">Email đăng nhập BearGold</div>
+          </article>
+          <article className="card dashboard-stat-card">
+            <div className="stat-topline"><span className="metric-label">VAI TRÒ</span><span className="stat-symbol">♙</span></div>
+            <div className="metric">{isAdmin ? "Admin" : "CTV"}</div>
+            <div className="metric-note">Phân quyền từ Supabase</div>
+          </article>
+          <article className="card dashboard-stat-card">
+            <div className="stat-topline"><span className="metric-label">PHIÊN LÀM VIỆC</span><span className="stat-symbol">✓</span></div>
+            <div className="metric dashboard-active">Đang hoạt động</div>
+            <div className="metric-note">Tài khoản đã xác thực</div>
+          </article>
         </section>
-        <div className="section-head"><h2>Truy cập nhanh</h2><span>Quyền truy cập theo vai trò</span></div>
-        <section className="actions">
-          <article className="action"><span className="metric-icon">✦</span><strong>Locket Gold Store</strong><p>Xem các gói 7 ngày, 30 ngày, 365 ngày và vĩnh viễn.</p><Link className="pill" href="/store">Mở cửa hàng →</Link></article>
-          <article className="action"><span className="metric-icon">▣</span><strong>Quản lý yêu cầu</strong><p>Xem và cập nhật yêu cầu tư vấn do khách gửi.</p><Link className="pill" href="/orders">Mở danh sách →</Link></article>
-          <article className="action" id="profiles"><span className="metric-icon">▤</span><strong>Hồ sơ của tôi</strong><p>Xem thông tin tài khoản, vai trò và Credits.</p><Link className="pill" href="/profile">Mở hồ sơ →</Link></article>
-          {isAdmin && <article className="action"><span className="metric-icon">⚙</span><strong>Khu vực quản trị</strong><p>Khu vực chỉ dành cho tài khoản có role admin.</p><Link className="pill" href="/admin">Mở quản trị →</Link></article>}
-          <article className="action" id="history"><span className="metric-icon">◷</span><strong>Lịch sử hoạt động</strong><p>Theo dõi thao tác sau khi hoàn thiện nhật ký.</p><span className="pill">Sắp ra mắt</span></article>
+
+        <div className="section-head dashboard-section-head">
+          <div><h2>Lối tắt</h2><p>Truy cập nhanh các khu vực thường dùng</p></div>
+          <span>BEARGOLD WORKSPACE</span>
+        </div>
+        <section className="actions dashboard-actions">
+          <Link className="action dashboard-action" href="/store">
+            <span className="dashboard-action-icon">✦</span>
+            <span className="dashboard-action-tag">DỊCH VỤ</span>
+            <strong>Danh mục dịch vụ</strong>
+            <p>Xem thông tin các gói và trạng thái tiếp nhận yêu cầu.</p>
+            <span className="dashboard-action-link">Mở danh mục <b>→</b></span>
+          </Link>
+          <Link className="action dashboard-action" href="/orders">
+            <span className="dashboard-action-icon">▣</span>
+            <span className="dashboard-action-tag">THEO DÕI</span>
+            <strong>Yêu cầu & đơn hàng</strong>
+            <p>Kiểm tra mã yêu cầu và cập nhật trạng thái xử lý.</p>
+            <span className="dashboard-action-link">Xem yêu cầu <b>→</b></span>
+          </Link>
+          <Link className="action dashboard-action" href="/profile">
+            <span className="dashboard-action-icon">♙</span>
+            <span className="dashboard-action-tag">CÁ NHÂN</span>
+            <strong>Hồ sơ của tôi</strong>
+            <p>Xem thông tin tài khoản, vai trò và số dư Credits.</p>
+            <span className="dashboard-action-link">Mở hồ sơ <b>→</b></span>
+          </Link>
+          {isAdmin && (
+            <Link className="action dashboard-action" href="/admin">
+              <span className="dashboard-action-icon">⚙</span>
+              <span className="dashboard-action-tag">QUẢN TRỊ</span>
+              <strong>Trung tâm Admin</strong>
+              <p>Quản lý thành viên và các chức năng quản trị.</p>
+              <span className="dashboard-action-link">Mở quản trị <b>→</b></span>
+            </Link>
+          )}
         </section>
-        <div className="section-head"><h2>Hoạt động gần đây</h2><span>Chưa có dữ liệu</span></div>
-        <div className="table-wrap"><table><thead><tr><th>HOẠT ĐỘNG</th><th>NGƯỜI THỰC HIỆN</th><th>THỜI GIAN</th><th>TRẠNG THÁI</th></tr></thead><tbody><tr><td>Đăng nhập BearGold</td><td>{displayName}</td><td>Phiên hiện tại</td><td className="status">● Đã xác thực</td></tr></tbody></table></div>
-        <div className="footer">BEARGOLD © 2026 · PRIVATE MANAGEMENT DASHBOARD</div>
+
+        <section className="dashboard-security-note">
+          <span className="security-note-icon">盾</span>
+          <div><strong>Thông tin được bảo vệ</strong><p>Số dư và quyền truy cập được xác định phía máy chủ. BearGold không yêu cầu mật khẩu Locket hoặc Apple ID của bạn.</p></div>
+        </section>
+
+        <div className="footer">BEARGOLD © 2026 · MEMBER WORKSPACE</div>
       </main>
     </div>
   );
