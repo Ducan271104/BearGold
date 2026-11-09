@@ -28,7 +28,6 @@ export default async function Home() {
             <Link className="active" href="/">◫　Tổng quan</Link>
             {isAdmin && <Link href="/admin">⚙　Quản trị Admin</Link>}
             {!isAdmin && <Link href="/dns">⌁　Quản lý DNS</Link>}
-            {!isAdmin && <Link href="/dns">⌁　Quản lý DNS</Link>}
             <Link href="/store">✦　Locket Gold Store</Link>
             <Link href="/profile">▤　Hồ sơ của tôi</Link>
             <a href="#history">◷　Lịch sử thao tác</a>
