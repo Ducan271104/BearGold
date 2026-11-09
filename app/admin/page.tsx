@@ -21,6 +21,14 @@ type Activity = {
   created_at: string;
 };
 
+type SupplierVerification = {
+  supplier_name: string | null;
+  authorization_status: "pending" | "verified" | "rejected";
+  order_activation_enabled: boolean;
+  verified_at: string | null;
+  updated_at: string;
+};
+
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("vi-VN", {
     dateStyle: "short",
@@ -43,7 +51,7 @@ export default async function AdminPage() {
 
   if (profile?.role !== "admin") redirect("/");
 
-  const [profilesResult, activityResult] = await Promise.all([
+  const [profilesResult, activityResult, supplierResult] = await Promise.all([
     supabase
       .from("profiles")
       .select("id, email, display_name, role, credits, created_at")
@@ -54,10 +62,16 @@ export default async function AdminPage() {
       .select("id, actor_id, action, target, metadata, created_at")
       .order("created_at", { ascending: false })
       .limit(30),
+    supabase
+      .from("supplier_verification")
+      .select("supplier_name, authorization_status, order_activation_enabled, verified_at, updated_at")
+      .eq("id", 1)
+      .maybeSingle(),
   ]);
 
   const members = (profilesResult.data ?? []) as Profile[];
   const activities = (activityResult.data ?? []) as Activity[];
+  const supplier = supplierResult.data as SupplierVerification | null;
   const emailById = new Map(members.map((member) => [member.id, member.email || "Không rõ"]));
 
   return (
@@ -99,6 +113,38 @@ export default async function AdminPage() {
           <div className="metric-label">Nhật ký gần đây</div>
           <div className="metric">{activities.length}</div>
         </article>
+      </section>
+
+      <section className="admin-section">
+        <div className="section-head">
+          <h2>Trạng thái nhà cung cấp</h2>
+          <span>Chỉ đọc · không tự kích hoạt đơn hàng</span>
+        </div>
+        {supplierResult.error ? (
+          <p className="admin-notice">Chưa đọc được trạng thái nhà cung cấp. Kiểm tra migration 004 và quyền đọc bảng supplier_verification.</p>
+        ) : !supplier ? (
+          <p className="admin-notice">Chưa có bản ghi xác minh nhà cung cấp. Hệ thống tiếp tục giữ chức năng đặt hàng ở trạng thái tắt.</p>
+        ) : (
+          <div className="supplier-gate-card">
+            <div className="supplier-gate-head">
+              <span className={`supplier-status supplier-status-${supplier.authorization_status}`}>
+                {supplier.authorization_status === "verified" ? "Đã xác minh" : supplier.authorization_status === "rejected" ? "Không được xác minh" : "Đang chờ xác minh"}
+              </span>
+              <span className={supplier.order_activation_enabled ? "supplier-activation supplier-activation-on" : "supplier-activation"}>
+                Đặt hàng: {supplier.order_activation_enabled ? "Đang bật" : "Đang tắt"}
+              </span>
+            </div>
+            <h3>{supplier.supplier_name || "Chưa khai báo nhà cung cấp"}</h3>
+            <p>
+              {supplier.authorization_status === "verified"
+                ? "Trạng thái xác minh đã được ghi nhận. Chỉ bật xử lý đơn hàng khi quyền phân phối và quy trình vận hành đã được kiểm tra đầy đủ."
+                : supplier.authorization_status === "rejected"
+                  ? "Nguồn cung chưa được chấp thuận. Không nhận thanh toán hoặc kích hoạt dịch vụ."
+                  : "Nguồn cung và quyền phân phối chưa được xác minh. BearGold chỉ hiển thị danh mục tham khảo và tiếp nhận yêu cầu tư vấn."}
+            </p>
+            <small>Cập nhật lần cuối: {formatDate(supplier.updated_at)}</small>
+          </div>
+        )}
       </section>
 
       <section className="admin-section">
