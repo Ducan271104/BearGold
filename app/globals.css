@@ -129,3 +129,16 @@ td { color:#cbd1dc; }
 .track-card { display:grid; gap:17px; padding:23px; border:1px solid rgba(245,200,75,.2); border-radius:18px; background:linear-gradient(145deg,#151a25,#10141c); }
 .track-code { color:var(--gold2); font-size:clamp(25px,6vw,36px); font-weight:800; letter-spacing:1.5px; }
 @media(max-width:640px) { .contact-row { grid-template-columns:1fr; } .public-order-form { padding:16px; } }
+
+
+.order-list { display:grid; gap:12px; }
+.order-admin-card { padding:17px; border:1px solid var(--line); border-radius:15px; background:var(--panel); display:grid; gap:14px; }
+.order-admin-head,.order-admin-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.order-admin-head strong { color:var(--gold2); font-size:14px; }
+.order-admin-head span,.order-admin-grid small { color:var(--muted); font-size:10px; }
+.order-admin-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.order-admin-grid div { display:grid; gap:5px; min-width:0; }
+.order-admin-grid strong { font-size:12px; overflow-wrap:anywhere; }
+.order-admin-actions select { border:1px solid var(--line); border-radius:9px; background:#0d1119; color:#f7f8fb; padding:9px 11px; font-size:11px; }
+.order-status { color:var(--gold2); font-size:11px; }
+@media(max-width:640px) { .order-admin-grid { grid-template-columns:1fr; } .order-admin-head,.order-admin-actions { align-items:flex-start; flex-direction:column; } .order-admin-actions select { width:100%; } }
