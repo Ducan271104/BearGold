@@ -124,3 +124,5 @@ td { color:#cbd1dc; }
 .activation-off { color:#d9b56b; }
 .activation-table { min-width:980px; }
 .activation-table td { vertical-align:middle; }
+
+.admin-quick-links { display:flex; flex-wrap:wrap; gap:8px; }
