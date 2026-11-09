@@ -111,7 +111,7 @@ export default function MemberManager({ members }: { members: Member[] }) {
                 <span>{member.email || "Chưa có email"}</span>
                 <small>{member.role.toUpperCase()} · {member.id.slice(0, 8)}…</small>
               </div>
-              {member.role === "ctv" ? (
+              {String(member.role).toUpperCase() === "CTV" ? (
                 <CreditAdjustForm member={member} />
               ) : (
                 <div className="member-admin-credit">ADMIN · {member.credits ?? 0} Credits</div>
