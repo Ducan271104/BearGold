@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
   const result = await uplocketRequest("/api/locket/lookup", {
     method: "POST",
     body: JSON.stringify({ username }),
-  });
+  }, { authenticated: false });
 
   return NextResponse.json(result.data, {
     status: result.ok ? 200 : result.status,
