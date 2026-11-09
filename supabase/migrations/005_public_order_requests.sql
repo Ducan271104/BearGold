@@ -4,9 +4,15 @@
 
 alter table public.service_packages enable row level security;
 drop policy if exists "service_packages_read_active" on public.service_packages;
-create policy "service_packages_read_active"
+drop policy if exists "service_packages_public_read_active" on public.service_packages;
+drop policy if exists "service_packages_authenticated_read" on public.service_packages;
+create policy "service_packages_public_read_active"
 on public.service_packages
-for select to anon, authenticated
+for select to anon
+using (active = true);
+create policy "service_packages_authenticated_read"
+on public.service_packages
+for select to authenticated
 using (active = true or (select public.is_beargold_admin()));
 
 revoke all on table public.service_packages from anon, authenticated;
@@ -100,7 +106,7 @@ begin
     raise exception 'PACKAGE_UNAVAILABLE';
   end if;
 
-  v_code := 'BG-' || pg_catalog.upper(pg_catalog.substr(pg_catalog.replace(gen_random_uuid()::text, '-', ''), 1, 10));
+  v_code := 'BG-' || pg_catalog.upper(pg_catalog.substr(pg_catalog.replace(pg_catalog.gen_random_uuid()::text, '-', ''), 1, 10));
 
   insert into public.order_requests (
     order_code, tracking_token, package_id, package_name, duration_label,
