@@ -27,6 +27,7 @@ export default async function Home() {
           <nav className="nav">
             <Link className="active" href="/">◫　Tổng quan</Link>
             {isAdmin && <Link href="/admin">⚙　Quản trị Admin</Link>}
+            {!isAdmin && <Link href="/dns">⌁　Quản lý DNS</Link>}
             <Link href="/store">✦　Locket Gold Store</Link>
             <Link href="/profile">▤　Hồ sơ của tôi</Link>
             <a href="#history">◷　Lịch sử thao tác</a>
@@ -57,6 +58,7 @@ export default async function Home() {
         <div className="section-head"><h2>Truy cập nhanh</h2><span>Quyền truy cập theo vai trò</span></div>
         <section className="actions">
           <article className="action"><span className="metric-icon">✦</span><strong>Locket Gold Store</strong><p>Xem các gói 7 ngày, 30 ngày, 365 ngày và vĩnh viễn.</p><Link className="pill" href="/store">Mở cửa hàng →</Link></article>
+          {!isAdmin && <article className="action"><span className="metric-icon">⌁</span><strong>Quản lý DNS</strong><p>Tra cứu Locket, tạo và quản lý hồ sơ kích hoạt.</p><Link className="pill" href="/dns">Mở quản lý DNS →</Link></article>}
           <article className="action" id="profiles"><span className="metric-icon">▤</span><strong>Hồ sơ của tôi</strong><p>Xem thông tin tài khoản, vai trò và Credits.</p><Link className="pill" href="/profile">Mở hồ sơ →</Link></article>
           {isAdmin && <article className="action"><span className="metric-icon">⚙</span><strong>Khu vực quản trị</strong><p>Khu vực chỉ dành cho tài khoản có role admin.</p><Link className="pill" href="/admin">Mở quản trị →</Link></article>}
           <article className="action" id="history"><span className="metric-icon">◷</span><strong>Lịch sử hoạt động</strong><p>Theo dõi thao tác sau khi hoàn thiện nhật ký.</p><span className="pill">Sắp ra mắt</span></article>
