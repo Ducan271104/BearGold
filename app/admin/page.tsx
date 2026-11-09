@@ -41,7 +41,7 @@ export default async function AdminPage() {
     .eq("id", user.id)
     .maybeSingle();
 
-  if (profile?.role !== "admin") redirect("/");
+  if (String(profile?.role ?? "").toUpperCase() !== "ADMIN") redirect("/");
 
   const [profilesResult, activityResult] = await Promise.all([
     supabase
@@ -79,7 +79,10 @@ export default async function AdminPage() {
           <h2>Trung tâm quản lý BearGold</h2>
           <p>Quyền quản trị được xác minh ở máy chủ. Credits chỉ được điều chỉnh qua thao tác Admin có ghi nhật ký.</p>
         </div>
-        <Link href="/" className="pill">← Tổng quan</Link>
+        <div className="admin-quick-links">
+          <Link href="/activations" className="pill">Hồ sơ DNS →</Link>
+          <Link href="/" className="pill">← Tổng quan</Link>
+        </div>
       </section>
 
       <section className="admin-stats">
@@ -89,11 +92,11 @@ export default async function AdminPage() {
         </article>
         <article className="card">
           <div className="metric-label">Quản trị viên</div>
-          <div className="metric">{members.filter((item) => item.role === "admin").length}</div>
+          <div className="metric">{members.filter((item) => String(item.role).toUpperCase() === "ADMIN").length}</div>
         </article>
         <article className="card">
           <div className="metric-label">Cộng tác viên</div>
-          <div className="metric">{members.filter((item) => item.role === "ctv").length}</div>
+          <div className="metric">{members.filter((item) => String(item.role).toUpperCase() === "CTV").length}</div>
         </article>
         <article className="card">
           <div className="metric-label">Nhật ký gần đây</div>

@@ -52,7 +52,7 @@ export default async function StorePage() {
           <span className="store-label">SỐ DƯ CỦA BẠN</span>
           <div className="store-balance">{profile?.credits ?? 0} <span>Credits</span></div>
         </div>
-        <span className="pill">{profile?.role === "admin" ? "ADMIN" : "CỘNG TÁC VIÊN"}</span>
+        <span className="pill">{String(profile?.role ?? "").toUpperCase() === "ADMIN" ? "ADMIN" : "CỘNG TÁC VIÊN"}</span>
       </section>
 
       <section className="store-notice" role="status">
