@@ -2,13 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-const metrics = [
-  { icon: "✦", label: "Tổng Credits", value: String(profile?.credits ?? 0), note: "Số dư trong hồ sơ của bạn" },
-  { icon: "◉", label: "Hồ sơ quản lý", value: "—", note: "Dữ liệu thật sẽ được bổ sung" },
-  { icon: "↗", label: "Thao tác hôm nay", value: "—", note: "Đang chờ cấu hình nhật ký" },
-  { icon: "⌁", label: "Vai trò", value: "Đang tải", note: "Quyền được xác định từ database" }
-];
-
 export default async function Home() {
   const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
