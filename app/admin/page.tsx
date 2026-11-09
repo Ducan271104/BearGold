@@ -79,7 +79,10 @@ export default async function AdminPage() {
           <h2>Trung tâm quản lý BearGold</h2>
           <p>Quyền quản trị được xác minh ở máy chủ. Credits chỉ được điều chỉnh qua thao tác Admin có ghi nhật ký.</p>
         </div>
-        <Link href="/" className="pill">← Tổng quan</Link>
+        <div className="admin-quick-links">
+          <Link href="/activations" className="pill">Hồ sơ DNS →</Link>
+          <Link href="/" className="pill">← Tổng quan</Link>
+        </div>
       </section>
 
       <section className="admin-stats">
