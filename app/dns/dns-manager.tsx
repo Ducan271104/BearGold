@@ -81,8 +81,10 @@ export default function DnsManager() {
   async function exportProfile(event: React.FormEvent) {
     event.preventDefault(); setBusyAction("export"); setNotice("");
     try {
-      const data = await api("/api/dns/dns/export", { method: "POST", body: JSON.stringify({ username: username.trim(), durationDays: Number(durationDays), packageName, videoMode, memberSinceDate }) });
-      setNotice("Tạo hồ sơ thành công. Mã kích hoạt: " + (data.activationCode || "đã được tạo") + (data.installUrl || data.downloadUrl || data.enrollUrl || data.url ? " · Link cài đặt đã sẵn sàng." : ""));
+      const data = await api("/api/dns/dns/export", { method: "POST", body: JSON.stringify({ username: username.trim(), durationDays: Number(durationDays), packageName, videoMode, memberSinceDate: memberSinceDate === "custom" ? customMemberDate : memberSinceDate }) });
+      const installUrl = data.installUrl || data.downloadUrl || data.enrollUrl || data.url;
+      setExportResult({ code: data.activationCode, url: installUrl });
+      setNotice("Tạo hoặc cập nhật hồ sơ thành công.");
       await refreshData();
     } catch (error) { setNotice(error instanceof Error ? error.message : "Không thể tạo hồ sơ."); }
     finally { setBusyAction(""); }
@@ -131,10 +133,12 @@ export default function DnsManager() {
         <label>Thời hạn<select value={durationDays} onChange={e => setDurationDays(e.target.value)}><option value="7">7 ngày</option><option value="30">30 ngày</option><option value="90">90 ngày</option><option value="365">365 ngày</option><option value="9999">Vĩnh viễn</option></select></label>
         <label>Tên gói<input value={packageName} onChange={e => setPackageName(e.target.value)} maxLength={80} /></label>
         <label>Video mode<select value={videoMode} onChange={e => setVideoMode(e.target.value)}><option value="5s">5 giây</option><option value="15s">15 giây</option><option value="30s">30 giây</option></select></label>
-        <label>Ngày thành viên<select value={memberSinceDate} onChange={e => setMemberSinceDate(e.target.value)}><option value="classic">Classic</option><option value="today">Today</option><option value="custom">Ngày cụ thể</option></select></label>\n        {memberSinceDate === "custom" && <label>Ngày thành viên<input type="date" value={customMemberDate} onChange={e => setCustomMemberDate(e.target.value)} required /></label> }
-        <button className="pill" disabled={!configured || busyAction === "export" || !username.trim()}>{busyAction === "export" ? "Đang tạo…" : "Tạo / cập nhật hồ sơ"}</button>
+        <label>Ngày thành viên<select value={memberSinceDate} onChange={e => setMemberSinceDate(e.target.value)}><option value="classic">Classic</option><option value="today">Today</option><option value="custom">Ngày cụ thể</option></select></label>
+        {memberSinceDate === "custom" && <label>Ngày thành viên<input type="date" value={customMemberDate} onChange={e => setCustomMemberDate(e.target.value)} required /></label> }
+        <button className="pill" disabled={!configured || busyAction === "export" || !username.trim() || (memberSinceDate === "custom" && !customMemberDate)}>{busyAction === "export" ? "Đang tạo…" : "Tạo / cập nhật hồ sơ"}</button>
       </form>
-      {notice && <p className="dns-message" role="status">{notice}</p>}\n      {exportResult && <div className="lookup-result"><div><strong>Mã kích hoạt: {exportResult.code || "Đã tạo"}</strong>{exportResult.url && <p><a className="dns-install" href={exportResult.url} target="_blank" rel="noreferrer">Mở link cài đặt ↗</a></p>}</div></div>}
+      {notice && <p className="dns-message" role="status">{notice}</p>}
+      {exportResult && <div className="lookup-result"><div><strong>Mã kích hoạt: {exportResult.code || "Đã tạo"}</strong>{exportResult.url && <p><a className="dns-install" href={exportResult.url} target="_blank" rel="noreferrer">Mở link cài đặt ↗</a></p>}</div></div>}
     </section>
 
     <section className="dns-panel">
